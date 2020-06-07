@@ -1,0 +1,22 @@
+{
+  "name": "game-hear",
+  "version": "1.0.0",
+  "description": "RestApi that scrapes most recent game information.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env NODE_ENV=development nodemon server.js",
+    "start": "env NODE_ENV=production node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.8",
+    "mongoose": "^5.9.18"
+  }
+}
