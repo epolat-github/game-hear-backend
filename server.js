@@ -13,7 +13,7 @@ mongoose
     .catch((err) => console.error("DB connection error: ", err));
 
 // init routes
-const gta5 = require("./routes/gta5");
+const gta5 = require("./api/routes/gta5");
 
 // routes
 app.get("/", (req, res) => {
@@ -22,3 +22,9 @@ app.get("/", (req, res) => {
 
 // initial info getter path
 app.use("/api/gta5", gta5);
+
+const PORT = 3000 || process.env.PORT;
+
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});

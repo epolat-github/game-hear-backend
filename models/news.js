@@ -8,27 +8,30 @@ const singleNew = new Schema({
     },
     items: {
         type: [String],
-        required: true
-    }
-})
+        required: true,
+    },
+});
 
 // Create news schema
 const NewSchema = new Schema({
-    scrapeDate = {
+    scrapeDate: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
     },
-    newDate = {
+    newDate: {
         type: Date,
     },
-    newHeader = {
+    newHeader: {
         type: String,
         required: true,
     },
     newFeaturedImage: {
-        type: String
+        type: String,
     },
-    news: [singleNew]
-})
+    news: {
+        type: [singleNew],
+        default: undefined
+    }
+});
 
 module.exports = newsModel = mongoose.model("new", NewSchema);
