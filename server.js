@@ -12,5 +12,13 @@ mongoose
     .then(() => console.log("DB connected"))
     .catch((err) => console.error("DB connection error: ", err));
 
+// init routes
+const gta5 = require("./routes/gta5");
 
+// routes
+app.get("/", (req, res) => {
+    res.send("root");
+});
 
+// initial info getter path
+app.use("/api/gta5", gta5);
