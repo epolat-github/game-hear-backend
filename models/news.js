@@ -1,16 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const singleNew = new Schema({
-    topic: {
-        type: String,
-        required: true,
-    },
-    items: {
-        type: [String],
-        required: true,
-    },
-});
 
 // Create news schema
 const NewSchema = new Schema({
@@ -25,8 +15,8 @@ const NewSchema = new Schema({
         type: String,
         required: true,
     },
-    newFeaturedImage: {
-        type: String,
+    images: {
+        type: [String],
     },
     news: {
         type: [String],
@@ -34,4 +24,3 @@ const NewSchema = new Schema({
 });
 
 module.exports = newsModel = mongoose.model("weeklyNew", NewSchema);
-module.exports = singleNewModel = mongoose.model("singleNew", singleNew);

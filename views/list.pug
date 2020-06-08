@@ -1,7 +1,8 @@
 ul
     each week in news
         li
-            h2= week.heading
+            h2= week.header
+            p= week.date
             img(src= week.images[0] style={width: "480"})
             ul
                 each singleNew in week.news

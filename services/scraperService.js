@@ -2,9 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 // db models
-const newsModels = require("../models/news");
-const singleNewModel = newsModels.singleNewModel;
-const weeklyNewModel = newsModels.newsModel;
+const newsModel = require("../models/news");
 
 class scraperService {
     constructor() {
@@ -23,26 +21,31 @@ class scraperService {
         const allSections = $(".wiki-section");
 
         allSections.each((index, elem) => {
-            const heading = $(elem).find("h2 > span.mw-headline").text();
+            const header = $(elem).find("h2 > span.mw-headline").text();
             const image = $(elem).find("img").attr("src");
             const news = $(elem).find("li").text();
 
-            if (heading != "") {
-                newsHolder.push({ heading, images: [], news: [] });
-            }
-
-            else if(image != undefined) {
+            if (header != "") {
+                const [date, splittedHeader] = this.extractDate(header);
+                newsHolder.push({
+                    header: splittedHeader,
+                    date,
+                    images: [],
+                    news: [],
+                });
+            } else if (image != undefined) {
                 const [baseUrl, parameters] = image.split("?", 2);
-                newsHolder[newsHolder.length - 1].images.push(baseUrl)
+                newsHolder[newsHolder.length - 1].images.push(baseUrl);
+            } else if (news != "") {
+                newsHolder[newsHolder.length - 1].news.push(news);
             }
-            
-            else if (news != "") {
-                newsHolder[newsHolder.length - 1].news.push(news)
-            }
-
         });
 
         return newsHolder;
+    }
+
+    extractDate(input) {
+        return input.split(":");
     }
 }
 
