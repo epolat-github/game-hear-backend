@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 // initial info getter path
 app.use("/api/gta5", gta5);
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
