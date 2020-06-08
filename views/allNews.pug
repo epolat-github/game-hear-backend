@@ -1,0 +1,9 @@
+each week in news
+    h2= week.newHeader
+    p= week.newDate
+    img(src= week.images[0] style={width: "720"})
+    ul
+        each singleNew in week.news
+            li
+                p= singleNew
+                

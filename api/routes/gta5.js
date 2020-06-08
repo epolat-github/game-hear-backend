@@ -12,11 +12,9 @@ router.get("/", (req, res) => {
 router.get("/all", async (req, res) => {
     const dataServiceInstance = new dataService();
 
-    await dataServiceInstance.addMockup();
+    const foundNews = await dataServiceInstance.getAllNews();
 
-    const found = await dataServiceInstance.getAllNews();
-
-    res.json(found);
+    res.render("allNews", { news: foundNews });
 });
 
 router.get("/scrape", async (req, res) => {
