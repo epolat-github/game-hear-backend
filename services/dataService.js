@@ -9,9 +9,26 @@ class dataService {
 
         found.map((item) => item.toObject);
 
-        console.log(found);
+        // console.log(found);
 
         return found;
+    }
+
+    async updateDatabase(news) {
+        // purge the collection first
+        await newsModel.remove({});
+
+        // add new data
+        news.forEach((newsData) => {
+            const newWeeklyNews = new newsModel({
+                newDate: newsData.date,
+                newHeader: newsData.header,
+                images: newsData.images,
+                news: newsData.news,
+            });
+
+            const saveNews = await newWeeklyNews.save();
+        });
     }
 
     async addMockup() {

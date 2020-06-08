@@ -4,6 +4,8 @@ const cheerio = require("cheerio");
 // db models
 const newsModel = require("../models/news");
 
+const dataService = require("./dataService")
+
 class scraperService {
     constructor() {
         this.url = "https://www.ign.com/wikis/gta-5/GTA_Online_Weekly_Updates";
@@ -41,7 +43,9 @@ class scraperService {
             }
         });
 
-        return newsHolder;
+        const dataServiceInstance = new dataService();
+        await dataServiceInstance.updateDatabase(newsHolder);
+        // return newsHolder;
     }
 
     extractDate(input) {
