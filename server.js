@@ -2,6 +2,14 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
+const cron = require("node-cron");
+const scraperService = require("./services/scraperService");
+
+// every Wednesday
+cron.schedule("* * * * * 3", async () => {
+    const scraper = new scraperService();
+    await scraper.scrape();
+});
 
 // init DB
 mongoose

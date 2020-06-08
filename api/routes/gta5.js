@@ -17,14 +17,14 @@ router.get("/all", async (req, res) => {
     res.render("allNews", { news: foundNews });
 });
 
-router.get("/scrape", async (req, res) => {
-    try {
-        const scraper = new scraperService();
-        await scraper.scrape();
-        res.sendStatus(200);
-    } catch (err) {
-        res.sendStatus(500);
-    }
-});
+// router.get("/scrape", async (req, res) => {
+//     try {
+//         const scraper = new scraperService();
+//         await scraper.scrape();
+//         res.sendStatus(200);
+//     } catch (err) {
+//         res.sendStatus(500);
+//     }
+// });
 
 module.exports = router;
