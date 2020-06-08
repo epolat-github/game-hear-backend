@@ -19,7 +19,7 @@ const NewSchema = new Schema({
         default: Date.now(),
     },
     newDate: {
-        type: Date,
+        type: String,
     },
     newHeader: {
         type: String,
@@ -34,4 +34,5 @@ const NewSchema = new Schema({
     }
 });
 
-module.exports = newsModel = mongoose.model("new", NewSchema);
+module.exports = newsModel = mongoose.model("weeklyNew", NewSchema);
+module.exports = singleNewModel = mongoose.model("singleNew", singleNew)
