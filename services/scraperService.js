@@ -18,40 +18,31 @@ class scraperService {
     }
 
     async scrape() {
-        let headers = [];
+        let newsHolder = [];
         const $ = await this.fetchSite();
-        const news = $(".wiki-section");
+        const allSections = $(".wiki-section");
 
-        let newWeeklyNew = null;
+        allSections.each((index, elem) => {
+            const heading = $(elem).find("h2 > span.mw-headline").text();
+            const image = $(elem).find("img").attr("src");
+            const news = $(elem).find("li").text();
 
-        news.each((index, element) => {
-            // parse weekly new headings
-            const foundHeader = $(element).find("h2>.mw-headline");
-
-            if (foundHeader.length != 0) {
-                const [weekDate, weekHeading] = foundHeader
-                    .text()
-                    .split(":", 2);
-
-                weekHeading.trim();
-                weekDate.trim();
-
-                newWeeklyNew = new weeklyNewModel({
-                    newDate: weekDate,
-                    newHeader: weekHeading,
-                     
-                })
-
-
-
-            } else if (foundHeader.length == 0 && newWeeklyNew != null) {
-                headers.push(newWeeklyNew);
-                newWeeklyNew = null;
+            if (heading != "") {
+                newsHolder.push({ heading, images: [], news: [] });
             }
 
-            headers.push(newWeeklyNew);
+            else if(image != undefined) {
+                const [baseUrl, parameters] = image.split("?", 2);
+                newsHolder[newsHolder.length - 1].images.push(baseUrl)
+            }
+            
+            else if (news != "") {
+                newsHolder[newsHolder.length - 1].news.push(news)
+            }
+
         });
-        return headers;
+
+        return newsHolder;
     }
 }
 

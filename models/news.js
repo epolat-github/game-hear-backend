@@ -29,10 +29,9 @@ const NewSchema = new Schema({
         type: String,
     },
     news: {
-        type: [singleNew],
-        default: undefined
-    }
+        type: [String],
+    },
 });
 
 module.exports = newsModel = mongoose.model("weeklyNew", NewSchema);
-module.exports = singleNewModel = mongoose.model("singleNew", singleNew)
+module.exports = singleNewModel = mongoose.model("singleNew", singleNew);

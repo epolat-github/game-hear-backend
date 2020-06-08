@@ -22,9 +22,9 @@ router.get("/all", async (req, res) => {
 router.get("/fetch", async (req, res) => {
     const fetchInstance = new fetch();
 
-    const data = await fetchInstance.scrape();
-
-    res.render("list.pug", {values: data});
+    const news = await fetchInstance.scrape();
+    console.log(news)
+    res.render("list.pug", {news});
 });
 
 module.exports = router;
