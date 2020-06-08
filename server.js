@@ -15,6 +15,9 @@ mongoose
 // init routes
 const gta5 = require("./api/routes/gta5");
 
+// middlewares
+app.set("view engine", "pug");
+
 // routes
 app.get("/", (req, res) => {
     res.send("root");
