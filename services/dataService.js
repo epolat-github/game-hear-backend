@@ -16,10 +16,10 @@ class dataService {
 
     async updateDatabase(news) {
         // purge the collection first
-        await newsModel.remove({});
+        await newsModel.deleteMany({});
 
         // add new data
-        news.forEach((newsData) => {
+        news.forEach(async (newsData) => {
             const newWeeklyNews = new newsModel({
                 newDate: newsData.date,
                 newHeader: newsData.header,
