@@ -16,7 +16,7 @@ class scraperService {
         return cheerio.load(result.data);
     }
 
-    async scrape() {
+    async scrape(count = undefined) {
         let newsHolder = [];
         const $ = await this.fetchSite();
         const allSections = $(".wiki-section");
@@ -28,10 +28,15 @@ class scraperService {
 
             // Header of the Week
             if (header != "") {
+                // desired count
+                if ((count != undefined) & (newsHolder.length == count)) {
+                    return false;
+                }
+
                 // initial header format of IGN's GTA5 page=> "date:header"
                 const [date, splittedHeader] = header.split(":");
                 newsHolder.push({
-                    header: splittedHeader,
+                    header: splittedHeader.trim(),
                     date: this.stringToDate(date),
                     images: [],
                     news: [],
@@ -55,11 +60,13 @@ class scraperService {
         // update db
         const dataServiceInstance = new dataService();
         await dataServiceInstance.updateDatabase(newsHolder);
+
+        return newsHolder.length;
     }
 
     stringToDate(dateString) {
         const yearRegex = /\d\d\d\d/;
-        const dayRegex = /\d\d/;
+        const dayRegex = /\d{1,2}/;
 
         const day = dateString.match(dayRegex);
         const year = dateString.match(yearRegex);

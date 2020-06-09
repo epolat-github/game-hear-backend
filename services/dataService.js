@@ -7,15 +7,18 @@ class dataService {
     async getAllNews() {
         const found = await newsModel
             .find({})
-            .select({ _id: 0, scrapeDate: 0 });
+            .select({ _id: 0, scrapeDate: 0 })
+            .sort({ newDate: -1 });
 
         return found;
     }
 
     async updateDatabase(news) {
-        // purge the collection first
-        await newsModel.deleteMany({});
-
+        // console.log(news.length);
+        if (news.length != 1) {
+            // purge the collection first
+            await newsModel.deleteMany({});
+        }
         // add new data
         news.forEach(async (newsData) => {
             const newWeeklyNews = new newsModel({
@@ -25,7 +28,8 @@ class dataService {
                 news: newsData.news,
             });
 
-            const saveNews = await newWeeklyNews.save();
+            const savedNews = await newWeeklyNews.save();
+            console.log(`${savedNews._id} saved`);
         });
     }
 }

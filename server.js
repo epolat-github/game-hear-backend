@@ -13,7 +13,7 @@ cron.schedule("* * * * 5", async () => {
     console.log("Cron job hit");
 
     const scraper = new scraperService();
-    await scraper.scrape();
+    await scraper.scrape(1);
 
     console.log("Cron job completed");
 });

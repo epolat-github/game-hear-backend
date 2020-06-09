@@ -20,7 +20,9 @@ router.get("/all", async (req, res) => {
 router.get("/scrape", async (req, res) => {
     try {
         const scraper = new scraperService();
-        await scraper.scrape();
+        const count = await scraper.scrape();
+        console.log("Scraped ", count);
+        
         res.sendStatus(200);
     } catch (err) {
         res.sendStatus(500);
