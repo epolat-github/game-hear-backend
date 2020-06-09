@@ -14,7 +14,7 @@ router.get("/all", async (req, res) => {
 
     const foundNews = await dataServiceInstance.getAllNews();
 
-    res.render("allNews", { news: foundNews });
+    res.status(200).json(foundNews);
 });
 
 // router.get("/scrape", async (req, res) => {
