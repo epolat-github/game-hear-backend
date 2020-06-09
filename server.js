@@ -53,10 +53,17 @@ app.get("/gta5", async (req, res) => {
 // api paths
 app.use("/api/gta5", gta5);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+  });
+
 // error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.sendStatus(500);
+    res.sendStatus(err.status || 500);
     // res.status(err.status || 500);
     // res.json({ error: err.message });
 });
