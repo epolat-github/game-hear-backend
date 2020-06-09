@@ -3,6 +3,7 @@ const router = express.Router();
 
 // import services
 const dataService = require("../../services/dataService");
+const scraperService = require("../../services/scraperService");
 
 router.get("/", (req, res) => {
     res.send("gta5 root route");

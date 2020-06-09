@@ -32,7 +32,7 @@ class scraperService {
                 const [date, splittedHeader] = header.split(":");
                 newsHolder.push({
                     header: splittedHeader,
-                    date,
+                    date: this.stringToDate(date),
                     images: [],
                     news: [],
                 });
@@ -47,8 +47,7 @@ class scraperService {
 
             // Every single news of the week
             else if (news != "") {
-                // normally it has a bold topic and list of that topic per news. 
-                // Pushed without seperation.
+                //TODO separate bold single news topic and its bullets
                 newsHolder[newsHolder.length - 1].news.push(news);
             }
         });
@@ -56,6 +55,19 @@ class scraperService {
         // update db
         const dataServiceInstance = new dataService();
         await dataServiceInstance.updateDatabase(newsHolder);
+    }
+
+    stringToDate(dateString) {
+        const yearRegex = /\d\d\d\d/;
+        const dayRegex = /\d\d/;
+
+        const day = dateString.match(dayRegex);
+        const year = dateString.match(yearRegex);
+        const month = dateString.split(" ")[0];
+
+        const weekDate = new Date(day + month + year);
+
+        return weekDate;
     }
 }
 

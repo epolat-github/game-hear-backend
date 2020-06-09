@@ -8,7 +8,8 @@ const NewSchema = new Schema({
         default: Date.now(),
     },
     newDate: {
-        type: String,
+        type: Date,
+        required: true,
     },
     newHeader: {
         type: String,
