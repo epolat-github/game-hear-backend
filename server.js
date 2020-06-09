@@ -6,11 +6,14 @@ const cron = require("node-cron");
 const scraperService = require("./services/scraperService");
 const dataService = require("./services/dataService");
 
-
 // every Wednesday
-cron.schedule("* * * * * 3", async () => {
+cron.schedule("*/5 * * * *", async () => {
+    console.log("Cron job hit");
+
     const scraper = new scraperService();
     await scraper.scrape();
+
+    console.log("Cron job completed");
 });
 
 // init DB
@@ -39,7 +42,7 @@ app.get("/gta5", async (req, res) => {
     const foundNews = await dataServiceInstance.getAllNews();
 
     res.render("allNews", { news: foundNews });
-})
+});
 
 // initial info getter path
 app.use("/api/gta5", gta5);
