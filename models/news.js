@@ -10,6 +10,7 @@ const NewSchema = new Schema({
     newDate: {
         type: Date,
         required: true,
+        unique: true,
     },
     newHeader: {
         type: String,
@@ -21,6 +22,10 @@ const NewSchema = new Schema({
     news: {
         type: [String],
     },
+});
+
+NewSchema.post("save", (doc) => {
+    console.log(`${doc._id} saved`);
 });
 
 module.exports = newsModel = mongoose.model("weeklyNew", NewSchema);

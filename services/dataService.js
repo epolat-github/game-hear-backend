@@ -14,23 +14,30 @@ class dataService {
     }
 
     async updateDatabase(news) {
-        // console.log(news.length);
-        if (news.length != 1) {
-            // purge the collection first
-            await newsModel.deleteMany({});
-        }
-        // add new data
-        news.forEach(async (newsData) => {
-            const newWeeklyNews = new newsModel({
-                newDate: newsData.date,
-                newHeader: newsData.header,
-                images: newsData.images,
-                news: newsData.news,
-            });
+        try {
+            if (news.length != 1) {
+                // purge the collection first
+                await newsModel.deleteMany({});
+            }
+            // add new data
+            news.forEach(async (newsData) => {
+                const newWeeklyNews = new newsModel({
+                    newDate: newsData.date,
+                    newHeader: newsData.header,
+                    images: newsData.images,
+                    news: newsData.news,
+                });
 
-            const savedNews = await newWeeklyNews.save();
-            console.log(`${savedNews._id} saved`);
-        });
+                try{
+                    await newWeeklyNews.save();
+                } catch(err) {
+                    console.log("girdi")
+                    throw err;
+                }
+            });
+        } catch (err) {
+            throw err;
+        }
     }
 }
 

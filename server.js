@@ -9,12 +9,14 @@ const scraperService = require("./services/scraperService");
 const dataService = require("./services/dataService");
 
 // every Friday (site updates Thursday evenings)
-cron.schedule("* * * * 5", async () => {
+cron.schedule("* * * * * 5", async () => {
     console.log("Cron job hit");
-
     const scraper = new scraperService();
-    await scraper.scrape(1);
-
+    try {
+        await scraper.scrape(1);
+    } catch (err) {
+        return console.error("Cron job error: ", err.stack);
+    }
     console.log("Cron job completed");
 });
 
@@ -23,6 +25,7 @@ mongoose
     .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
     })
     .then(() => console.log("DB connected"))
     .catch((err) => console.error("DB connection error: ", err));
@@ -49,6 +52,14 @@ app.get("/gta5", async (req, res) => {
 
 // api paths
 app.use("/api/gta5", gta5);
+
+// error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.sendStatus(500);
+    // res.status(err.status || 500);
+    // res.json({ error: err.message });
+});
 
 // PORT config
 const PORT = process.env.PORT || 3000;
