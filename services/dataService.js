@@ -5,11 +5,9 @@ class dataService {
 
     // get all news data
     async getAllNews() {
-        const found = await newsModel.find({});
-
-        found.map((item) => item.toObject);
-
-        // console.log(found);
+        const found = await newsModel
+            .find({})
+            .select({ _id: 0, scrapeDate: 0 });
 
         return found;
     }
