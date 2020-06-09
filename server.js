@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-require("dotenv").config();
 const cron = require("node-cron");
+require("dotenv").config();
+
+// services
 const scraperService = require("./services/scraperService");
 const dataService = require("./services/dataService");
 
@@ -25,17 +27,18 @@ mongoose
     .then(() => console.log("DB connected"))
     .catch((err) => console.error("DB connection error: ", err));
 
-// init routes
+// sub-routes
 const gta5 = require("./api/routes/gta5");
 
 // middlewares
 app.set("view engine", "pug");
 
-// routes
+// root route
 app.get("/", (req, res) => {
     res.send("root");
 });
 
+// view routes
 app.get("/gta5", async (req, res) => {
     const dataServiceInstance = new dataService();
 
@@ -44,9 +47,10 @@ app.get("/gta5", async (req, res) => {
     res.render("allNews", { news: foundNews });
 });
 
-// initial info getter path
+// api paths
 app.use("/api/gta5", gta5);
 
+// PORT config
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

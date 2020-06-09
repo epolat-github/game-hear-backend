@@ -28,22 +28,6 @@ class dataService {
             const saveNews = await newWeeklyNews.save();
         });
     }
-
-    async addMockup() {
-        for (let i = 0; i < 5; i++) {
-            const newNews = new newsModel({
-                newHeader: `deneme${i}`,
-                news: [
-                    {
-                        topic: "topicdeneme",
-                        items: ["items1", "items2"],
-                    },
-                ],
-            });
-            const saved = await newNews.save();
-            console.log("Saved: ", saved);
-        }
-    }
 }
 
 module.exports = dataService;
