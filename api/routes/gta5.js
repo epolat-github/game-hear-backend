@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     res.send("gta5 root route");
 });
 
-router.get("/all", async (req, res) => {
+router.get("/news", async (req, res) => {
     const dataServiceInstance = new dataService();
 
     const foundNews = await dataServiceInstance.getAllNews();
