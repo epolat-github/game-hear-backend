@@ -2,7 +2,7 @@
 ---
 > ### An Express server that scrapes game websites periodically for their patch updates.
 
-# Start point
+## Start point
 To run the Node server locally:
 * Clone this repository
 * `npm install` to install all the dependencies
