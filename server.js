@@ -9,7 +9,8 @@ const scraperService = require("./services/scraperService");
 const dataService = require("./services/dataService");
 
 // every Friday (site updates Thursday evenings)
-cron.schedule("* * * * * 5", async () => {
+const cronExpression = "* * */12 * * *";
+cron.schedule(cronExpression, async () => {
     console.log("Cron job hit");
     const scraper = new scraperService();
     try {
