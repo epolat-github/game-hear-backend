@@ -10,17 +10,17 @@ const scraperService = require("./services/scraperService");
 const dataService = require("./services/dataService");
 
 // every Friday (site updates Thursday evenings)
-const cronExpression = "* * */12 * * *";
-cron.schedule(cronExpression, async () => {
-    console.log("Cron job hit");
-    const scraper = new scraperService();
-    try {
-        await scraper.scrape(1);
-    } catch (err) {
-        return console.error("Cron job error: ", err.stack);
-    }
-    console.log("Cron job completed");
-});
+// const cronExpression = "* * */12 * * *";
+// cron.schedule(cronExpression, async () => {
+//     console.log("Cron job hit");
+//     const scraper = new scraperService();
+//     try {
+//         await scraper.scrape(1);
+//     } catch (err) {
+//         return console.error("Cron job error: ", err.stack);
+//     }
+//     console.log("Cron job completed");
+// });
 
 // init DB
 mongoose
