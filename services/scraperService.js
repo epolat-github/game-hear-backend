@@ -25,7 +25,7 @@ class scraperService {
             allSections.each((_, elem) => {
                 const header = $(elem).find("h2 > span.mw-headline").text();
                 const image = $(elem).find("img").attr("src");
-                const news = $(elem).find("li").text();
+                const news = $(elem).find("li");
 
                 // Header of the Week
                 if (header != "") {
@@ -52,9 +52,47 @@ class scraperService {
                 }
 
                 // Every single news of the week
-                else if (news != "") {
+                else if (news.length != 0) {
                     //TODO separate bold single news topic and its bullets
-                    newsHolder[newsHolder.length - 1].news.push(news);
+                    const update = {
+                        topic: "",
+                        items: [],
+                    };
+
+                    // parse bold topic
+                    const topic = $(news).find("b");
+                    update.topic = topic.text().replace(":", "");
+
+                    // parse list items
+                    const items = $(news).html().split("<br>");
+
+                    items.forEach((item) => {
+                        // if the item is plain text without any tags involved, cheerio throws error.
+                        // But we need all of them except the bold ones.
+                        try {
+                            // const newItem = `<p>${item}</p>`;
+                            if (!$(item).is("b")) {
+                                // even the item has no tags in it, it can still get in this if clause.
+                                // for some reason, .text() might return empty string.
+                                const text = $(item).text();
+                                if (text != "") {
+                                    update.items.push(text);
+                                } else {
+                                    update.items.push(item);
+                                }
+                            }
+                        } catch (err) {
+                            update.items.push(item);
+                        }
+                        // console.log("ITEM: ", item);
+                        // console.log(
+                        //     "ARRAY: ",
+                        //     update.items[update.items.length - 1]
+                        // );
+                        // console.log("\n\n");
+                    });
+
+                    newsHolder[newsHolder.length - 1].news.push(update);
                 }
             });
 

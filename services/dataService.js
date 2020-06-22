@@ -31,7 +31,6 @@ class dataService {
                 try{
                     await newWeeklyNews.save();
                 } catch(err) {
-                    console.log("girdi")
                     throw err;
                 }
             });
