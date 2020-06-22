@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cron = require("node-cron");
+const cors = require("cors");
 require("dotenv").config();
 
 // services
@@ -36,6 +37,7 @@ const gta5 = require("./api/routes/gta5");
 
 // middlewares
 app.set("view engine", "pug");
+app.use(cors());
 
 // root route
 app.get("/", (req, res) => {
@@ -55,11 +57,11 @@ app.get("/gta5", async (req, res) => {
 app.use("/api/gta5", gta5);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+app.use(function (req, res, next) {
+    var err = new Error("Not Found");
     err.status = 404;
     next(err);
-  });
+});
 
 // error handler
 app.use((err, req, res, next) => {
