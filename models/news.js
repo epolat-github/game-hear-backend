@@ -19,9 +19,10 @@ const NewSchema = new Schema({
     images: {
         type: [String],
     },
-    news: {
-        type: [String],
-    },
+    news: [Schema.Types.Mixed],
+    // news: {
+    //     type: [String],
+    // },
 });
 
 NewSchema.post("save", (doc) => {
