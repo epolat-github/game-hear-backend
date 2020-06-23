@@ -9,12 +9,25 @@ router.get("/", (req, res) => {
     res.send("gta5 root route");
 });
 
-router.get("/news", async (req, res) => {
-    const dataServiceInstance = new dataService();
+router.get("/news/:count", async (req, res, next) => {
+    try {
+        const dataServiceInstance = new dataService();
 
-    const foundNews = await dataServiceInstance.getAllNews();
+        const count = req.params.count;
 
-    res.status(200).json(foundNews);
+        let foundNews;
+
+        // TODO mongodb .limit(0) returns all the data. Might no need to getAllNews() at all
+        if (count === "all") {
+            foundNews = await dataServiceInstance.getAllNews();
+            return res.status(200).json(foundNews);
+        } else {
+            foundNews = await dataServiceInstance.getCountOfNews(Number(count));
+            return res.status(200).json(foundNews);
+        }
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.get("/scrape", async (req, res, next) => {

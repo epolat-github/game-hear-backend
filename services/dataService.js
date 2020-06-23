@@ -13,6 +13,16 @@ class dataService {
         return found;
     }
 
+    async getCountOfNews(count) {
+        const found = await newsModel
+            .find({})
+            .select({ _id: 0, scrapeDate: 0 })
+            .sort({ newDate: -1 })
+            .limit(count);
+
+        return found;
+    }
+
     async updateDatabase(news) {
         try {
             if (news.length != 1) {
@@ -28,9 +38,9 @@ class dataService {
                     news: newsData.news,
                 });
 
-                try{
+                try {
                     await newWeeklyNews.save();
-                } catch(err) {
+                } catch (err) {
                     throw err;
                 }
             });
