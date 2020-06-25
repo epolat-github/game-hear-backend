@@ -34,10 +34,13 @@ mongoose
 
 // sub-routes
 const gta5 = require("./api/routes/gta5");
+const subscribe = require("./api/routes/subscription");
 
 // middlewares
 app.set("view engine", "pug");
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // root route
 app.get("/", (req, res) => {
@@ -55,6 +58,7 @@ app.get("/gta5", async (req, res) => {
 
 // api paths
 app.use("/api/gta5", gta5);
+app.use("/api/subscribe", subscribe);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

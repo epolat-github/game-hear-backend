@@ -17,7 +17,7 @@ router.get("/news/:count", async (req, res, next) => {
 
         let foundNews;
 
-        // TODO mongodb .limit(0) returns all the data. Might no need to getAllNews() at all
+        // TODO mongodb .limit(0) already returns all the data. Might no need to getAllNews() at all
         if (count === "all") {
             foundNews = await dataServiceInstance.getAllNews();
             return res.status(200).json(foundNews);
