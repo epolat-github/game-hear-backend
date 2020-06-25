@@ -13,12 +13,11 @@ router.post("/", (req, res, next) => {
     const { error } = subscribeSchema.validate(req.body);
     
     const { email, games } = req.body;
-    
+
     if (error) {
         return res.status(400).json({ message: error.message });
     }
 
-    console.log(`Subscribed email: ${email}\nSubscribed games:${games}\n`);
 
     res.json({ message: "Subscribed" });
 });
