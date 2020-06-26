@@ -8,7 +8,7 @@ const dataService = require("../../services/dataService");
 
 const subscribeSchema = Joi.object({
     email: Joi.string().email().required(),
-    games: Joi.array().items(Joi.string().valid("gta", "valorant", "lol").required()).required(),
+    games: Joi.array().items(Joi.string().valid("gta5", "valorant", "lol").required()).required(),
 });
 
 router.post("/", async (req, res, next) => {
