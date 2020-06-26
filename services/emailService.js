@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const mailgen = require("mailgen");
+const Mailgen = require("mailgen");
 const subscriberModel = require("../models/subscribers");
 
 class emailService {
@@ -7,15 +7,34 @@ class emailService {
 
     async sendWelcomeEmail({ email }) {}
 
+    formatGameNames(gameName) {
+        switch (gameName) {
+            case "gta5":
+                return "GTA5: Online";
+            case "valorant":
+                return "Valorant";
+            case "lol":
+                return "League of Legends";
+            default:
+                console.log("Unknown game");
+        }
+    }
+
     async sendUpdateEmail(gameName) {
-        const emails = await subscriberModel
+        let emails = await subscriberModel
             .find({ games: gameName })
-            .select("email");
+            .select({ email: 1, _id: 0 });
 
         if (emails.length == 0) {
             return console.log(`No subscribers on ${gameName}`);
+        } else {
+            // extract email strings from mongoose objects
+            emails = emails.map((email) => email.email);
+            console.log(`Found users for ${gameName}: `, emails);
         }
-        
+
+        gameName = this.formatGameNames(gameName);
+
         const transporterConfig = {
             host: process.env.MAIL_HOST,
             port: process.env.MAIL_PORT,
@@ -27,24 +46,33 @@ class emailService {
 
         const transporter = nodemailer.createTransport(transporterConfig);
 
-        emails.forEach((email) => {
+        emails.forEach(async (email) => {
             const mailToSend = this.createMail(
                 email,
                 `https://game-hear-web.herokuapp.com/games`,
                 gameName
             );
-            
-            const result = await transporter.sendMail(mailToSend);
-            return result;
+
+            // doesn't support async, await
+            transporter.sendMail(mailToSend, (err, info) => {
+                if (err) {
+                    console.error(
+                        `Error while sending email to ${email}: `,
+                        err.message
+                    );
+                } else {
+                    console.log(`Sent email to ${email}: `, info.messageId);
+                }
+            });
         });
     }
 
-    createMail(email, link, games) {
+    createMail(email, link, gameName) {
         const mailGenerator = new Mailgen({
             theme: "default",
             product: {
                 name: "GameHear",
-                link: "https://google.com",
+                link: "https://game-hear-web.herokuapp.com/",
                 //logo can come here
                 // logo: "link"
             },
@@ -52,7 +80,7 @@ class emailService {
 
         const emailContent = {
             body: {
-                intro: `Hello ${games[0]} has new updates`,
+                intro: `Hello ${gameName} has new updates`,
                 action: {
                     instructions:
                         "To learn about the latest update, click here:",
@@ -73,7 +101,7 @@ class emailService {
         const mailToSend = {
             from: "no-reply@gamehear.com",
             to: email,
-            subject: `${games[0]} Update`,
+            subject: `${gameName} Update`,
             html: emailHtml,
             text: emailText,
         };

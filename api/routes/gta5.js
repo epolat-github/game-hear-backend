@@ -4,6 +4,7 @@ const router = express.Router();
 // import services
 const dataService = require("../../services/dataService");
 const scraperService = require("../../services/scraperService");
+const emailService = require("../../services/emailService");
 
 router.get("/", (req, res) => {
     res.send("gta5 root route");
@@ -35,6 +36,10 @@ router.get("/scrape", async (req, res, next) => {
         const scraper = new scraperService();
         const count = await scraper.scrape();
         console.log("Scraped ", count);
+
+        // notify subscribers
+        const emailServiceInstance = new emailService();
+        await emailServiceInstance.sendUpdateEmail("gta5");
 
         res.sendStatus(200);
     } catch (err) {
