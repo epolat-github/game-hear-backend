@@ -28,6 +28,7 @@ mongoose
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
+        useFindAndModify: false,
     })
     .then(() => console.log("DB connected"))
     .catch((err) => console.error("DB connection error: ", err));
@@ -70,7 +71,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.sendStatus(err.status || 500);
+    res.status(err.status || 500).json({ message: err.message });
     // res.status(err.status || 500);
     // res.json({ error: err.message });
 });

@@ -1,4 +1,5 @@
 const newsModel = require("../models/news");
+const subscribersModel = require("../models/subscribers");
 
 class dataService {
     constructor() {}
@@ -44,6 +45,22 @@ class dataService {
                     throw err;
                 }
             });
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async addEmailSubscriber({ email, games }) {
+        console.log(email, games);
+        try {
+            await subscribersModel.findOneAndUpdate(
+                { email },
+                { games },
+                {
+                    new: true,
+                    upsert: true,
+                }
+            );
         } catch (err) {
             throw err;
         }
