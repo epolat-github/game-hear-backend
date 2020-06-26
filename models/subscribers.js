@@ -5,6 +5,7 @@ const EmailSubscriber = new Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
     },
     games: {
         type: [String],
