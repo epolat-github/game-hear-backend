@@ -98,9 +98,8 @@ class scraperService {
 
             // update db
             const dataServiceInstance = new dataService();
-            await dataServiceInstance.updateDatabase(newsHolder);
-
-            return newsHolder.length;
+            const updatedDocCount = await dataServiceInstance.updateDatabase(newsHolder);
+            return updatedDocCount;
         } catch (err) {
             throw err;
         }

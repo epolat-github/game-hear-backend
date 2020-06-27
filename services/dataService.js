@@ -25,13 +25,15 @@ class dataService {
     }
 
     async updateDatabase(news) {
+        let updatedDocCount = 0;
         try {
             if (news.length != 1) {
                 // purge the collection first
                 await newsModel.deleteMany({});
             }
             // add new data
-            news.forEach(async (newsData) => {
+            for (let i = 0; i < news.length; i++) {
+                const newsData = news[i];
                 const newWeeklyNews = new newsModel({
                     newDate: newsData.date,
                     newHeader: newsData.header,
@@ -39,14 +41,13 @@ class dataService {
                     news: newsData.news,
                 });
 
-                try {
-                    await newWeeklyNews.save();
-                } catch (err) {
-                    throw err;
-                }
-            });
+                await newWeeklyNews.save();
+                updatedDocCount += 1;
+            }
         } catch (err) {
             throw err;
+        } finally {
+            return updatedDocCount;
         }
     }
 

@@ -99,7 +99,7 @@ class emailService {
         const emailText = mailGenerator.generatePlaintext(emailContent);
 
         const mailToSend = {
-            from: "no-reply@gamehear.com",
+            from: "etuna1999@gmail.com",
             to: email,
             subject: `${gameName} Update`,
             html: emailHtml,

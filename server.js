@@ -48,12 +48,12 @@ app.get("/", (req, res) => {
     res.send("root");
 });
 
-// const emailService = require("./services/emailService");
-// app.get("/test", async (req, res) => {
-//     const email = new emailService();
-//     await email.sendUpdateEmail("gta5");
-//     res.json("done");
-// });
+const emailService = require("./services/emailService");
+app.get("/test", async (req, res) => {
+    const email = new emailService();
+    await email.sendUpdateEmail("gta5");
+    res.json("done");
+});
 
 // view routes
 app.get("/gta5", async (req, res) => {

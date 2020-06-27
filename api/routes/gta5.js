@@ -34,13 +34,15 @@ router.get("/news/:count", async (req, res, next) => {
 router.get("/scrape", async (req, res, next) => {
     try {
         const scraper = new scraperService();
-        const count = await scraper.scrape();
-        console.log("Scraped ", count);
+        const count = await scraper.scrape(1);
+        console.log("Updated: ", count);
 
         // notify subscribers
-        const emailServiceInstance = new emailService();
-        await emailServiceInstance.sendUpdateEmail("gta5");
-
+        //TODO send if there is something new
+        if (count !== 0) {
+            const emailServiceInstance = new emailService();
+            await emailServiceInstance.sendUpdateEmail("gta5");
+        }
         res.sendStatus(200);
     } catch (err) {
         next(err);
