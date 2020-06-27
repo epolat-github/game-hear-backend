@@ -52,16 +52,23 @@ class dataService {
     }
 
     async addEmailSubscriber({ email, games }) {
-        console.log(email, games);
         try {
-            await subscribersModel.findOneAndUpdate(
+            //findOneAndUpdate returns previous doc
+            const savedDoc = await subscribersModel.findOneAndUpdate(
                 { email },
                 { games },
                 {
-                    new: true,
                     upsert: true,
                 }
             );
+
+            if (!savedDoc) {
+                console.log(`New user ${email}, games: ${games}`);
+            } else {
+                console.log(`Updated user ${email}, games: ${games}`);
+            }
+
+            return savedDoc;
         } catch (err) {
             throw err;
         }

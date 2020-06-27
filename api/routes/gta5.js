@@ -21,11 +21,10 @@ router.get("/news/:count", async (req, res, next) => {
         // TODO mongodb .limit(0) already returns all the data. Might no need to getAllNews() at all
         if (count === "all") {
             foundNews = await dataServiceInstance.getAllNews();
-            return res.status(200).json(foundNews);
         } else {
             foundNews = await dataServiceInstance.getCountOfNews(Number(count));
-            return res.status(200).json(foundNews);
         }
+        return res.status(200).json(foundNews);
     } catch (err) {
         next(err);
     }
@@ -38,7 +37,6 @@ router.get("/scrape", async (req, res, next) => {
         console.log("Updated: ", count);
 
         // notify subscribers
-        //TODO send if there is something new
         if (count !== 0) {
             const emailServiceInstance = new emailService();
             await emailServiceInstance.sendUpdateEmail("gta5");

@@ -48,6 +48,7 @@ app.get("/", (req, res) => {
     res.send("root");
 });
 
+// TEST ROUTE
 const emailService = require("./services/emailService");
 app.get("/test", async (req, res) => {
     const email = new emailService();
