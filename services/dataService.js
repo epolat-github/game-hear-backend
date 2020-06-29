@@ -14,7 +14,7 @@ class dataService {
         return found;
     }
 
-    async getCountOfNews(count) {
+    async getLimitedNews(count) {
         const found = await newsModel
             .find({})
             .select({ _id: 0, scrapeDate: 0 })
@@ -22,6 +22,11 @@ class dataService {
             .limit(count);
 
         return found;
+    }
+
+    async getNewsCount() {
+        const count = await newsModel.countDocuments();
+        return count;
     }
 
     async updateDatabase(news) {

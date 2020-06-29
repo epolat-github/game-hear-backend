@@ -22,9 +22,19 @@ router.get("/news/:count", async (req, res, next) => {
         if (count === "all") {
             foundNews = await dataServiceInstance.getAllNews();
         } else {
-            foundNews = await dataServiceInstance.getCountOfNews(Number(count));
+            foundNews = await dataServiceInstance.getLimitedNews(Number(count));
         }
         return res.status(200).json(foundNews);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get("/count", async (req, res, next) => {
+    try {
+        const dataServiceInstance = new dataService();
+        const count = await dataServiceInstance.getNewsCount();
+        res.json(count);
     } catch (err) {
         next(err);
     }
@@ -33,11 +43,11 @@ router.get("/news/:count", async (req, res, next) => {
 router.get("/scrape", async (req, res, next) => {
     try {
         const scraper = new scraperService();
-        const count = await scraper.scrape(1);
-        console.log("Updated: ", count);
+        const scrapedNewsCount = await scraper.scrape(1);
+        console.log("Updated: ", scrapedNewsCount);
 
         // notify subscribers
-        if (count !== 0) {
+        if (scrapedNewsCount !== 0) {
             const emailServiceInstance = new emailService();
             await emailServiceInstance.sendUpdateEmail("gta5");
         }
