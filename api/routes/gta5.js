@@ -34,7 +34,7 @@ router.get("/count", async (req, res, next) => {
     try {
         const dataServiceInstance = new dataService();
         const count = await dataServiceInstance.getNewsCount();
-        res.json(count);
+        return res.json(count);
     } catch (err) {
         next(err);
     }

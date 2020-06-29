@@ -69,6 +69,9 @@ app.get("/gta5", async (req, res) => {
 app.use("/api/gta5", gta5);
 app.use("/api/subscribe", subscribe);
 
+// favicon error handler
+app.get("/favicon.ico", (req, res) => res.sendStatus(204));
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error("Not Found");
