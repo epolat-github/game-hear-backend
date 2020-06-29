@@ -46,6 +46,14 @@ class emailService {
 
         const transporter = nodemailer.createTransport(transporterConfig);
 
+        transporter.verify((err, success) => {
+            if (err) {
+                throw err;
+            } else {
+                console.log("Transporter config is correct.");
+            }
+        });
+
         emails.forEach(async (email) => {
             const mailToSend = this.createMail(
                 email,
