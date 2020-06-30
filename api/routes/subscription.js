@@ -15,11 +15,10 @@ const subscribeSchema = Joi.object({
 
 router.post("/", async (req, res, next) => {
     try {
-        const { error } = subscribeSchema.validate(req.body);
+        const { error } = subscribeSchema.validate(req.body, {abortEarly: false});
 
         if (error) {
-            throw createError(400, error.message);
-            // return res.status(400).json({ message: error.message });
+            throw createError(400, error);
         }
 
         const dataServiceInstance = new dataService();

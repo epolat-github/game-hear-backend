@@ -50,10 +50,14 @@ app.get("/", (req, res) => {
 
 // TEST ROUTE
 const emailService = require("./services/emailService");
-app.get("/test", async (req, res) => {
-    const email = new emailService();
-    await email.sendUpdateEmail("gta5");
-    res.json("done");
+app.get("/test", async (req, res, next) => {
+    try {
+        const email = new emailService();
+        await email.sendUpdateEmail("gta5");
+        res.json("done");
+    } catch (err) {
+        next(err);
+    }
 });
 
 // view routes
